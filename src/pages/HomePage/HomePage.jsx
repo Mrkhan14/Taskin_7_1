@@ -2,35 +2,12 @@ import React, { useEffect, useState } from 'react';
 import StockIcon from '../../assets/icons/StockIcon';
 import { categories } from '../../data/categories';
 import { products } from '../../data/product';
+import ProductCard from '../../components/ProductCard';
 
-const updateCart = newCart => {
-   localStorage.setItem('Cart', JSON.stringify(newCart));
-   const event = new Event('cartUpdated');
-   window.dispatchEvent(event);
-};
 
 function HomePage() {
    const [selectedCategory, setSelectedCategory] = useState(null);
    const [cart, setCart] = useState([]);
-
-   useEffect(() => {
-      const cartFromLocalStorage =
-         JSON.parse(localStorage.getItem('Cart')) || [];
-      setCart(cartFromLocalStorage);
-   }, []);
-
-   const addProduct = product => {
-      const newCart = [...cart, product];
-      localStorage.setItem('Cart', JSON.stringify(newCart));
-      setCart(newCart);
-      updateCart(newCart);
-   };
-   const removeProduct = productId => {
-      const newCart = cart.filter(product => product.id !== productId);
-      localStorage.setItem('Cart', JSON.stringify(newCart));
-      setCart(newCart);
-      updateCart(newCart);
-   };
 
    const handleCategoryClick = category => {
       setSelectedCategory(category);
@@ -83,43 +60,8 @@ function HomePage() {
                   )}
                   <div className='products grid grid-cols-4 gap-4'>
                      {products.map(product => {
-                        const isAdded = cart.find(p => p.id === product.id);
                         return (
-                           <div
-                              key={product.id}
-                              className='product bg-white border border-bor-color rounded-xl'
-                           >
-                              <img
-                                 className='w-full'
-                                 src={product.image}
-                                 alt={product.name}
-                              />
-                              <div className='p-5'>
-                                 <div className='text-lg font-semibold mb-3'>
-                                    {product.name}
-                                 </div>
-                                 <div className='text-sm font-normal mb-3 min-h-10'>
-                                    {product.description}
-                                 </div>
-                                 <div className='flex justify-between items-center'>
-                                    <button
-                                       className='bg-primary-600 text-white py-3 px-8 rounded-md'
-                                       onClick={() => {
-                                          if (isAdded) {
-                                             removeProduct(product?.id);
-                                          } else {
-                                             addProduct(product);
-                                          }
-                                       }}
-                                    >
-                                       {isAdded ? 'Remove' : 'Add'}
-                                    </button>
-                                    <span className='text-2xl text-primary-600 font-bold'>
-                                       от {product.price} ₽
-                                    </span>
-                                 </div>
-                              </div>
-                           </div>
+                           <ProductCard key={product.id} {...product}></ProductCard>
                         );
                      })}
                   </div>

@@ -6,33 +6,7 @@ import ShoppingIcon from '../../assets/icons/ShoppingIcon';
 import { categories } from '../../data/categories';
 import './Header.css';
 
-const updateCart = newCart => {
-   localStorage.setItem('Cart', JSON.stringify(newCart));
-   const event = new Event('cartUpdated');
-   window.dispatchEvent(event);
-};
-
 const Header = () => {
-   const [totalItem, setTotalItem] = useState(0);
-   const [totalPrice, setTotalPrice] = useState(0);
-
-   const updateTotalItem = () => {
-      const data = JSON.parse(localStorage.getItem('Cart')) || [];
-      setTotalItem(data.length);
-
-      const price = data.reduce((acc, item) => acc + (item.price ? Number(item.price) : 0), 0);
-      setTotalPrice(price);
-   };
-
-   useEffect(() => {
-      updateTotalItem();
-      window.addEventListener('cartUpdated', updateTotalItem);
-
-      return () => {
-         window.removeEventListener('cartUpdated', updateTotalItem);
-      };
-   }, []);
-
    return (
       <header className='bg-white'>
          <div className='border-b border-bor-color'>
@@ -79,8 +53,8 @@ const Header = () => {
                >
                   <ShoppingIcon />
                   <span className='text-white'>
-                     <span className='mx-1'>{totalItem}</span> шт.
-                     <span className='mx-1'>{totalPrice.toFixed(2)}</span> ₽
+                     <span className='mx-1'>5</span> шт.
+                     <span className='mx-1'>100</span> ₽
                   </span>
                </NavLink>
             </div>
@@ -90,4 +64,3 @@ const Header = () => {
 };
 
 export default Header;
-export { updateCart };
