@@ -14,10 +14,14 @@ const updateCart = newCart => {
 
 const Header = () => {
    const [totalItem, setTotalItem] = useState(0);
+   const [totalPrice, setTotalPrice] = useState(0);
 
    const updateTotalItem = () => {
       const data = JSON.parse(localStorage.getItem('Cart')) || [];
       setTotalItem(data.length);
+
+      const price = data.reduce((acc, item) => acc + (item.price ? Number(item.price) : 0), 0);
+      setTotalPrice(price);
    };
 
    useEffect(() => {
@@ -70,12 +74,13 @@ const Header = () => {
                   ))}
                </ul>
                <NavLink
-                  className='bg-primary-600 flex h-10 w-20 justify-center rounded-lg items-center'
+                  className='bg-primary-600 flex h-10 w-40 justify-center rounded-lg items-center'
                   to='/cart'
                >
                   <ShoppingIcon />
                   <span className='text-white'>
-                     <span className='mx-1'>{totalItem}</span> ₽
+                     <span className='mx-1'>{totalItem}</span> шт.
+                     <span className='mx-1'>{totalPrice.toFixed(2)}</span> ₽
                   </span>
                </NavLink>
             </div>
