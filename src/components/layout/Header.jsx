@@ -60,9 +60,9 @@ const Header = () => {
          </div>
          <div className='md:container md:mx-auto'>
             <div className='flex items-center py-4'>
-               <div className='logo mr-8'>
+               <NavLink to='/' className='logo mr-8'>
                   <img className='./logo.png' src='/logo.png' alt='Logo' />
-               </div>
+               </NavLink>
                <ul className='nav flex flex-1'>
                   <li className='mx-7 text-base font-medium'>
                      <span>Акции</span>
