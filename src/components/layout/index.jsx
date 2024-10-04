@@ -3,14 +3,14 @@ import { Outlet } from 'react-router-dom';
 import Header from './Header';
 
 const Layout = () => {
-  return (
-    <Fragment>
-      <Header />
-      <main className='position-relative'>
-          <Outlet />
-      </main>
-    </Fragment>
-  );
+   return (
+      <Fragment>
+         <Header />
+         <div className='md:container md:mx-auto'>
+            <Outlet />
+         </div>
+      </Fragment>
+   );
 };
 
 export default Layout;

@@ -1,46 +1,92 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import AccountIcon from '../../assets/icons/AccountIcon';
+import LocationIcon from '../../assets/icons/LocationIcon';
+import ShoppingIcon from '../../assets/icons/ShoppingIcon';
+import { categories } from '../../data/categories';
 import './Header.css';
-import { IS_LOGIN } from '../../constants/index';
+
+// Function to update the cart in localStorage and dispatch an event
+const updateCart = newCart => {
+   localStorage.setItem('Cart', JSON.stringify(newCart));
+   const event = new Event('cartUpdated');
+   window.dispatchEvent(event);
+};
 
 const Header = () => {
-   const handleLogout = () => {
-      localStorage.removeItem(IS_LOGIN);
-   };
-   return (
-      <header className='header-block align-items-center'>
-         <div>
-            <div className='w-50 d-flex'>
-            <div className='logo'>
-               {/* <img className='logo-img' src='/logo.png' alt='' /> */}
-               <span>Tinch</span>
-            </div>
-               <ul className='nav'>
-                  <li className='nav-item me-4'>
-                     <NavLink className='nav-link' to='/'>
-                        <span className='name-block'>Home</span>
-                     </NavLink>
-                  </li>
-                  <li className='nav-item me-4'>
-                     <NavLink className='nav-link' to='/sales'>
-                        <span className='name-block'>Sales</span>
-                     </NavLink>
-                  </li>
-                  <li className='nav-item me-4'>
-                     <NavLink className='nav-link' to='/react'>
-                        <span className='name-block'>React</span>
-                     </NavLink>
-                  </li>
-                  
-               </ul>
-            </div>
+   const [totalItem, setTotalItem] = useState(0);
 
-            <NavLink to='/login' onClick={handleLogout}>
-               <img src='/icons/LoginIcon.svg' alt='' />
-            </NavLink>
+   const updateTotalItem = () => {
+      const data = JSON.parse(localStorage.getItem('Cart')) || [];
+      setTotalItem(data.length);
+   };
+
+   useEffect(() => {
+      updateTotalItem();
+
+      // Add event listener for custom cartUpdated event
+      window.addEventListener('cartUpdated', updateTotalItem);
+
+      return () => {
+         // Clean up the event listener
+         window.removeEventListener('cartUpdated', updateTotalItem);
+      };
+   }, []);
+
+   return (
+      <header className='bg-white'>
+         <div className='border-b border-bor-color'>
+            <div className='md:container md:mx-auto'>
+               <div className='flex py-2'>
+                  <div className='flex text-sm font-medium mr-10'>
+                     <LocationIcon />
+                     <span className='ml-1'>Москва</span>
+                  </div>
+                  <div className=' text-sm font-medium mr-10'>
+                     Проверить адрес
+                  </div>
+                  <div className='flex-1 text-sm font-medium mr-10'>
+                     Среднее время доставки*: <b>00:24:19</b>
+                  </div>
+                  <div className='text-sm font-medium mr-10'>
+                     Время работы: с 11:00 до 23:00
+                  </div>
+                  <div className='flex '>
+                     <AccountIcon />
+                     <span className='ml-1'>Войти в аккаунт</span>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div className='md:container md:mx-auto'>
+            <div className='flex items-center py-4'>
+               <div className='logo mr-8'>
+                  <img className='./logo.png' src='/logo.png' alt='Logo' />
+               </div>
+               <ul className='nav flex flex-1'>
+                  <li className='mx-7 text-base font-medium'>
+                     <span>Акции</span>
+                  </li>
+                  {categories.map((category, index) => (
+                     <li key={index} className='mx-7 text-base font-medium'>
+                        <span>{category.name}</span>
+                     </li>
+                  ))}
+               </ul>
+               <NavLink
+                  className='bg-primary-600 flex h-10 w-20 justify-center rounded-lg items-center'
+                  to='/cart'
+               >
+                  <ShoppingIcon />
+                  <span className='text-white'>
+                     <span className='mx-1'>{totalItem}</span> ₽
+                  </span>
+               </NavLink>
+            </div>
          </div>
       </header>
    );
 };
 
 export default Header;
+export { updateCart };
