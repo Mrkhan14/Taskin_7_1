@@ -18,6 +18,7 @@ function HomePage() {
          JSON.parse(localStorage.getItem('Cart')) || [];
       setCart(cartFromLocalStorage);
    }, []);
+
    const addProduct = product => {
       const newCart = [...cart, product];
       localStorage.setItem('Cart', JSON.stringify(newCart));

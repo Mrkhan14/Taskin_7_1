@@ -4,49 +4,10 @@ const CartPage = () => {
    const [cart, setCart] = useState([]);
    const [totalSum, setTotalSum] = useState(0);
 
-   // Retrieve cart from localStorage on component mount
    useEffect(() => {
       const storedCart = JSON.parse(localStorage.getItem('Cart')) || [];
       setCart(storedCart);
-      calculateTotalSum(storedCart);
    }, []);
-
-   // Calculate the total sum
-   const calculateTotalSum = cartItems => {
-      const sum = cartItems.reduce((acc, item) => {
-         if (item && item && item.price && item.quantity) {
-            return acc + item.quantity * item.price;
-         }
-         return acc;
-      }, 0);
-      setTotalSum(sum);
-   };
-
-   // Handle add item
-   const handleAdd = index => {
-      const newCart = [...cart];
-      if (newCart[index] && newCart[index].quantity !== undefined) {
-         newCart[index].quantity += 1;
-         setCart(newCart);
-         localStorage.setItem('Cart', JSON.stringify(newCart));
-         calculateTotalSum(newCart);
-      }
-   };
-
-   // Handle remove item
-   const handleRemove = index => {
-      const newCart = [...cart];
-      if (
-         newCart[index] &&
-         newCart[index].quantity !== undefined &&
-         newCart[index].quantity > 0
-      ) {
-         newCart[index].quantity -= 1;
-         setCart(newCart);
-         localStorage.setItem('Cart', JSON.stringify(newCart));
-         calculateTotalSum(newCart);
-      }
-   };
 
    // const removeObjectById = id => {
    //    const storedData = localStorage.getItem('Cart');
@@ -82,7 +43,7 @@ const CartPage = () => {
                <div>
                   <button
                      className='p-2 bg-primary-600 m-2 text-white rounded-lg'
-                     onClick={() => handleRemove(index)}
+                     onClick={() => handleMinus(index)}
                   >
                      -
                   </button>
@@ -91,7 +52,7 @@ const CartPage = () => {
 
                   <button
                      className='p-2 bg-primary-600 m-2 text-white rounded-lg'
-                     onClick={() => handleAdd(index)}
+                     onClick={() => handlePlus(index)}
                   >
                      +
                   </button>

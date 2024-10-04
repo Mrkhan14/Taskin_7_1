@@ -6,7 +6,6 @@ import ShoppingIcon from '../../assets/icons/ShoppingIcon';
 import { categories } from '../../data/categories';
 import './Header.css';
 
-// Function to update the cart in localStorage and dispatch an event
 const updateCart = newCart => {
    localStorage.setItem('Cart', JSON.stringify(newCart));
    const event = new Event('cartUpdated');
@@ -23,12 +22,9 @@ const Header = () => {
 
    useEffect(() => {
       updateTotalItem();
-
-      // Add event listener for custom cartUpdated event
       window.addEventListener('cartUpdated', updateTotalItem);
 
       return () => {
-         // Clean up the event listener
          window.removeEventListener('cartUpdated', updateTotalItem);
       };
    }, []);
