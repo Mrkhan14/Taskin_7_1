@@ -26,9 +26,9 @@ function HomePage() {
 
    return (
       <div>
-         <ul className='flex justify-between my-8'>
+         <ul className='flex justify-between my-8 max-lg:flex-wrap'>
             <li
-               className='w-[135px] h-[104px] bg-white border border-bor-color flex justify-center items-center flex-col rounded-xl cursor-pointer hover:border-primary-600'
+               className='w-[135px] h-[104px] max-md:w-full max-lg:w-2/4 max-lg:mb-5  bg-white border border-bor-color flex justify-center items-center flex-col rounded-xl cursor-pointer hover:border-primary-600'
                onClick={() => handleCategoryClick(null)}
             >
                <StockIcon />
@@ -37,7 +37,7 @@ function HomePage() {
             {categories.map((category, index) => (
                <li
                   key={index}
-                  className='w-[135px] h-[104px] bg-white border border-bor-color flex justify-center items-center flex-col rounded-xl cursor-pointer hover:border-primary-600'
+                  className='w-[135px] h-[104px] max-md:w-full max-lg:w-2/4 max-lg:mb-5  bg-white border border-bor-color flex justify-center items-center flex-col rounded-xl cursor-pointer hover:border-primary-600'
                   onClick={() => handleCategoryClick(category.name)}
                >
                   <img
@@ -58,7 +58,7 @@ function HomePage() {
                         <h1 className='text-[40px] font-bold'>{category}</h1>
                      </div>
                   )}
-                  <div className='products grid grid-cols-4 gap-4'>
+                  <div className='products grid grid-cols-4 gap-4 max-sm:grid-cols-1 max-md:grid-cols-2 max-lg:grid-cols-3'>
                      {products.map(product => {
                         return (
                            <ProductCard key={product.id} {...product}></ProductCard>
