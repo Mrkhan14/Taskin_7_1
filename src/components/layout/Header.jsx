@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import AccountIcon from '../../assets/icons/AccountIcon';
 import LocationIcon from '../../assets/icons/LocationIcon';
 import ShoppingIcon from '../../assets/icons/ShoppingIcon';
 import { categories } from '../../data/categories';
 import './Header.css';
+import { CartContext } from '../../context/CartContext';
 
 const Header = () => {
+   const {cart} = useContext(CartContext)
    return (
       <header className='bg-white'>
          <div className='border-b border-bor-color'>
@@ -53,7 +55,7 @@ const Header = () => {
                >
                   <ShoppingIcon />
                   <span className='text-white'>
-                     <span className='mx-1'>5</span> шт.
+                     <span className='mx-1'>({cart.length})</span> шт.
                      <span className='mx-1'>100</span> ₽
                   </span>
                </NavLink>

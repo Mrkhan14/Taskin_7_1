@@ -1,13 +1,21 @@
 import { useContext } from 'react'
 import { CartContext } from './../context/CartContext'
 import PropTypes from 'prop-types'
+import IncDec from './IncDec'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 function ProductCard({ id, image, name, description, price }) {
-    const { addToCart } = useContext( CartContext )
+    const { addToCart, cart  } = useContext(CartContext)
+    const productInCart = cart.find(product => product.id === id)
     return (
         <div>
             <div className='product bg-white border border-bor-color rounded-xl'>
-                <img
+                <LazyLoadImage
+                    effect="blur"
+                    // wrapperProps={{
+                    //     // If you need to, you can tweak the effect transition using the wrapper style.
+                    //     style: {transitionDelay: "1s"},
+                    // }}
                     className='w-full'
                     src={image}
                     alt={name}
@@ -20,11 +28,12 @@ function ProductCard({ id, image, name, description, price }) {
                         {description}
                     </div>
                     <div className='flex justify-between items-center'>
-                        <button
+                        {productInCart ? <IncDec quantity={productInCart.quantity} id={id}></IncDec> : <button
                             onClick={() => addToCart(id)}
                             className='bg-primary-600 text-white py-3 px-8 rounded-md'>
                             Add
-                        </button>
+                        </button> }
+                        
                         <span className='text-2xl text-primary-600 font-bold'>
                             от {price} ₽
                         </span>

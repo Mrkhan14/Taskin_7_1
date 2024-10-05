@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import IncDec from './IncDec'
 
 function CartCard({id, image, name, description, price, quantity}) {
     return (
@@ -17,18 +18,8 @@ function CartCard({id, image, name, description, price, quantity}) {
                     <div>{description || 'Product description'}</div>
                 </div>
 
-                <div>
-                    <button className='p-2 bg-primary-600 m-2 text-white rounded-lg'>
-                        -
-                    </button>
-
-                    {quantity}
-
-                    <button className='p-2 bg-primary-600 m-2 text-white rounded-lg'>
-                        +
-                    </button>
-                </div>
-
+                <IncDec quantity={quantity} id={id}></IncDec>
+                
                 <span className='ml-8 text-2xl text-primary-600 font-bold'>
                     {price} ₽
                 </span>
@@ -38,7 +29,7 @@ function CartCard({id, image, name, description, price, quantity}) {
 }
 
 CartCard.propTypes = {
-    id: PropTypes.string,
+    id: PropTypes.number,
     image: PropTypes.string,
     name: PropTypes.string,
     description: PropTypes.string,

@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import './App.css';
 import Layout from './components/layout/index.jsx';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 // Routes
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const CartPage = lazy(() => import('./pages/CartPage/CartPage.jsx'));
