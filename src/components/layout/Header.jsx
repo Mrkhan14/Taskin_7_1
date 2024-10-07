@@ -5,9 +5,11 @@ import LocationIcon from '../../assets/icons/LocationIcon';
 import ShoppingIcon from '../../assets/icons/ShoppingIcon';
 import { categories } from '../../data/categories';
 import './Header.css';
+import { LanguageContext } from "../../context/LanguageContext";
 import { CartContext } from '../../context/CartContext';
 
 const Header = () => {
+   const { langType, lang, changeLang } = useContext(LanguageContext);
    const { cart } = useContext(CartContext);
    const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -23,12 +25,12 @@ const Header = () => {
 
    return (
       <header className='bg-white'>
-         <div className='border-b border-bor-color'>
+         <div className='border-b border-bor-color max-lg:hidden'>
             <div className='md:container md:mx-auto  bg-white '>
                <div className='flex py-2'>
                   <div className='flex text-sm font-medium mr-10'>
                   <LocationIcon />
-                  <span className='ml-1'>Москва</span>
+                  <span className='ml-1'>{lang.moscow}</span>
                   </div>
                   <div className='text-sm font-medium mr-10'>
                   Проверить адрес
@@ -49,12 +51,12 @@ const Header = () => {
 
          <div className={`bg-white w-full ${scrollPosition > 130 ? 'fixed top-0 z-50' : ''}`}>
             <div className='md:container md:mx-auto '>
-               <div className="flex items-center py-4">
-                  <NavLink to='/' className='logo mr-8'>
+               <div className="flex items-center py-4 max-sm:flex-col max-lg:flex-wrap">
+                  <NavLink to='/' className='logo mr-8 '>
                      <img className='./logo.png' src='/logo.png' alt='Logo' />
                   </NavLink>
 
-                  <ul className={`nav flex flex-1 transition-opacity duration-300 ${scrollPosition > 130 ? 'opacity-100' : 'opacity-0'}`}>
+                  <ul className={`max-lg:flex-wrap max-lg:!opacity-100 nav flex flex-1 transition-opacity duration-300 ${scrollPosition > 130 ? 'opacity-100' : 'opacity-0'}`}>
                      <li className='mx-7 text-base font-medium'>
                      <span>Акции</span>
                      </li>
@@ -64,6 +66,18 @@ const Header = () => {
                      </li>
                      ))}
                   </ul>
+                  
+                  <div>
+                     <select
+                        value={langType}
+                        className="bg-primary-600 p-2 text-white rounded-lg mr-4"
+                        onChange={changeLang}
+                        >
+                        <option value="en">EN</option>
+                        <option value="uz">UZ</option>
+                        <option value="ru">RU</option>
+                     </select>
+                  </div>
 
                   <NavLink
                      className='bg-primary-600 flex h-10 w-40 justify-center rounded-lg items-center'
